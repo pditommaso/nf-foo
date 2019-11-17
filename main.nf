@@ -1,3 +1,5 @@
+params.fail = false
+
 process stress_1cpu {
   """
   stress -c 1 -t 5
@@ -15,6 +17,8 @@ process stress_2cpu {
 process stress_and_fail {
   errorStrategy 'ignore'
   input: val x from Channel.from(1,2,3)
+  when:
+  params.fail 
   """
   stress -c 1 -t $x
   exit $x
